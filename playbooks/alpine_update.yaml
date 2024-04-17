@@ -1,10 +1,9 @@
 ---
 - name: Update Alpine
   hosts: all
-
-    become: true
-    tasks:
-      - name: update apk packages
-        apk:
-          upgrade: yes
-          update_cache: yes
+  become: true
+  tasks:
+    - name: update apk packages
+      apk:
+        upgrade: yes
+        update_cache: yes
