@@ -1,9 +1,17 @@
 ---
-- name: Update Alpine
+- name: Update and Upgrade Alpine Linux
   hosts: all
   become: true
   tasks:
-    - name: update apk packages
+    - name: Add and upgrade apk-tools package
+      apk:
+        name: apk-tools
+        state: latest
+
+    - name: Update APK package cache
+      apk:
+        update_cache: yes
+
+    - name: Upgrade all installed packages
       apk:
         upgrade: yes
-        update_cache: yes
