@@ -1,0 +1,7 @@
+---
+- name: Update raspberrypi 4
+  hosts: pi4
+  become: yes
+  tasks:
+    - name: test command
+      command: apt touch test.txt
