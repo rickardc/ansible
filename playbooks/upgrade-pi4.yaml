@@ -1,26 +1,26 @@
 ---
 - name: Update raspberrypi 4
   hosts: pi4
-  become: yes
+  become: true
   tasks:
-    - name: test command
-      command: touch test.txt
+    - name: Create test.txt
+      ansible.builtin.command: touch test.txt
 
-    - name: update package cache
-      apt:
-        update_cache: yes
+    - name: Update package cache
+      ansible.builtin.apt:
+        update_cache: true
 
-    - name: install neovim
-      apt:
+    - name: Install neovim
+      ansible.builtin.apt:
         name: neovim
         state: present
 
-    - name: install neofetch
-      apt: 
+    - name: Install neofetch
+      ansible.builtin.apt:
         name: neofetch
         state: present
 
-    - name: install btop
-      apt: 
+    - name: Install btop
+      ansible.builtin.apt:
         name: btop
         state: present
