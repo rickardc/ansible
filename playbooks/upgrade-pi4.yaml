@@ -5,3 +5,22 @@
   tasks:
     - name: test command
       command: touch test.txt
+
+    - name: update package cache
+      apt:
+        update_cache: yes
+
+    - name: install neovim
+      apt:
+        name: neovim
+        state: present
+
+    - name: install neofetch
+      apt: 
+        name: neofetch
+        state: present
+
+    - name: install btop
+      apt: 
+        name: btop
+        state: present
