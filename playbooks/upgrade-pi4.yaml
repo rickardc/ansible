@@ -4,4 +4,4 @@
   become: yes
   tasks:
     - name: test command
-      command: apt touch test.txt
+      command: touch test.txt
