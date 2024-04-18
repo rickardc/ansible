@@ -1,0 +1,7 @@
+---
+- name: Update Pi-hole
+  hosts: pi_hole # need to add to inventory
+  become: yes
+  tasks:
+    - name: Run pihole -up command
+      command: pihole -up

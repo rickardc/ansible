@@ -11,7 +11,18 @@
     - name: Update APK package cache
       apk:
         update_cache: yes
+        cache_valid_time: 3600
 
     - name: Upgrade all installed packages
       apk:
         upgrade: yes
+
+    - name: Install Neofetch
+      apk:
+        name: neofetch
+        state: present
+
+    - name: Install Neovim
+      apk:
+        name: neovim
+        state: present
