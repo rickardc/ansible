@@ -1,6 +1,6 @@
 ---
 - name: Update and Upgrade Alpine Linux
-  hosts: all
+  hosts: alpine-test
   become: true
   tasks:
     - name: Add and upgrade apk-tools package
