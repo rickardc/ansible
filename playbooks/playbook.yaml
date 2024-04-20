@@ -1,0 +1,16 @@
+---
+- name: Playbook
+  hosts: pi4
+  become: true
+
+  tasks:
+  - name: Ensure chrony is installed.
+    apt:
+      name: chrony
+      state: present
+
+  - name: Ensure chrony is running.
+    service:
+      name: chrony
+      state: started
+      enabled: true
