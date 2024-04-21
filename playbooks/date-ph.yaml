@@ -1,0 +1,12 @@
+---
+- name: Date of  Pi-hole
+  hosts: pi_hole
+  gather_facts: false
+  tasks:
+    - name: Get current date and time
+      command: date
+      register: current_date
+
+    - name: Show current date and time
+      debug:
+        msg: "Current date and time is {{ current_date.stdout }}"

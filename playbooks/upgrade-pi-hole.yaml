@@ -1,7 +1,7 @@
 ---
 - name: Update Pi-hole
-  hosts: pi-hole # need to add to inventory
-  become: true
+  hosts: pi_hole
+  
   tasks:
-    - name: Run pihole -up command
+    - name: Update Pi-hole
       ansible.builtin.command: pihole -up
