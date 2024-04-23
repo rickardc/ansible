@@ -24,20 +24,29 @@
           - curl
           - tmux
           - neovim
+          - gnome-terminal
         state: present
         use_backend: dnf4
+
+    - name: Set zsh default
+      become: true
+      ansible.builtin.user:
+        name: chris
+        shell: /bin/zsh
 
     - name: Install multiple packages
       community.general.flatpak:
         name:
           - org.mozilla.firefox
-          - com.discordapp.Discord
+          - net.waterfox.waterfox
           - io.gitlab.librewolf-community
           - org.videolan.VLC
-          - com.visualstudio.code
+        # - com.visualstudio.code # not ideal in flatpak
           - com.vscodium.codium
           - org.gnome.Boxes
           - md.obsidian.Obsidian
+
+          - com.discordapp.Discord
           - org.duckstation.DuckStation
           - com.valvesoftware.Steam
           - net.pcsx2.PCSX2

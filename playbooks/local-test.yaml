@@ -1,36 +1,29 @@
 ---
 # Run with ansible-playbook playbooks/local-test.yaml --connection=local
-- name: Local test
+- name: Local install miniconda, vscode, docker
   hosts: 127.0.0.1
   gather_facts: true
 
   tasks:
 
-    # Update Packages
+    - name: Make miniconda directory
+      ansible.builtin.file:
+        path: ~/miniconda3
+        state: directory
+        owner: chris
 
-    # Install Dev tool
-    - name: Install zsh
-      ansible.builtin.dnf:
-        name:
-          - zsh
-          - stow
-          - neofetch
-          - git
-          - gh
-          - wget
-          - curl
-        state: present
-        use_backend: dnf4
+    - name: Get shell script
+      ansible.builtin.get_url:
+        url: "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"
+        dest: "{{ ansible_env.HOME }}/miniconda3/miniconda.sh"
+
+    - name: Run Miniconda installer
+      command: "bash {{ ansible_env.HOME }}/miniconda3/miniconda.sh -b -u -p {{ ansible_env.HOME }}/miniconda3"
+      args:
+        creates: "{{ ansible_env.HOME }}/miniconda3/bin/conda"
       become: true
 
-    # Check if Miniconda is installed
-    - name: Check if Miniconda is installed
-      stat:
-        path: "{{ ansible_env.HOME }}/miniconda3/bin/conda"
-      register: miniconda_installed
-      become: true
-
-    # Install Miniconda
+    # Install Miniconda 
     - name: Install Miniconda
       when: miniconda_installed.stat.exists == false
       block:
@@ -68,6 +61,8 @@
         - name: Initialize Miniconda for zsh shell
           shell: "{{ ansible_env.HOME }}/miniconda3/bin/activate"
           become: true
+
+      # sudo chown -R $USER:$USER ~/miniconda3 
     
 
   # docker
@@ -83,7 +78,7 @@
     - name: Install Docker
       block:
         - name: Install dnf-plugins-core
-          dnf:
+          ansible.builtin.dnf:
             name: dnf-plugins-core
             state: present
           become: true
