@@ -1,6 +1,7 @@
 ---
 # Run with ansible-playbook playbooks/local-test.yaml --connection=local
-- hosts: 127.0.0.1
+- name: Local test
+  hosts: 127.0.0.1
   gather_facts: true
 
   tasks:
@@ -9,15 +10,15 @@
 
     # Install Dev tool
     - name: Install zsh
-      dnf:
-        name: zsh
-        state: present
-        use_backend: dnf4
-      become: true
-
-    - name: Install neofetch
-      dnf:
-        name: neofetch
+      ansible.builtin.dnf:
+        name:
+          - zsh
+          - stow
+          - neofetch
+          - git
+          - gh
+          - wget
+          - curl
         state: present
         use_backend: dnf4
       become: true
@@ -68,60 +69,6 @@
           shell: "{{ ansible_env.HOME }}/miniconda3/bin/activate"
           become: true
     
-    - name: Install github
-      dnf:
-        name: gh
-        state: present
-        use_backend: dnf4
-      become: true
-    
-    - name: Install vs code
-      dnf:
-        name: gh
-        state: present
-        use_backend: dnf4
-      become: true
-
-  # vs code
-
-    # Check if Visual Studio Code is installed
-    - name: Check if Visual Studio Code is installed
-      command: "rpm -q code"
-      register: code_installed
-      ignore_errors: yes
-      become: true
-
-    # Install Visual Studio Code if it's not already installed
-    - name: Install Visual Studio Code
-      block:
-        - name: Import Microsoft GPG key
-          shell: "sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc"
-          become: true
-
-        - name: Create Visual Studio Code repository file
-          shell: 'sudo sh -c "echo -e \"[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc\" > /etc/yum.repos.d/vscode.repo"'
-          become: true
-
-        - name: Update package cache
-          dnf:
-            name: '*'
-            state: latest
-          become: true
-
-        - name: Install Visual Studio Code
-          dnf:
-            name: code
-            state: present
-          become: true
-      when: code_installed.rc != 0
-
-    # Display message if Visual Studio Code is already installed
-    - name: Display message if Visual Studio Code is already installed
-      debug:
-        msg: "Visual Studio Code is already installed"
-      when: code_installed.rc == 0
-
-
 
   # docker
 
@@ -195,20 +142,8 @@
       when: docker_desktop_installed.stat.exists == true
 
 
-  # steam
 
-  # pcsx2
 
-  # duckstation
 
-  # discord
 
-  # obsidian
 
-  # signal
-    - name: Install Discord
-      dnf:
-        name: discord
-        state: present
-        use_backend: dnf4
-      become: true
