@@ -1,0 +1,10 @@
+---
+- name: Clone dotfiles
+  hosts: 127.0.0.1
+  gather_facts: true
+
+  tasks:
+   - name: Clone dotfiles
+     ansible.builtin.git:
+      repo: https://github.com/rickardc/dotfiles.git
+      dest: ~/GitHub # noqa: latest

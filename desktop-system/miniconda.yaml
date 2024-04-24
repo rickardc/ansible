@@ -1,0 +1,15 @@
+---
+- name: Install vs code
+  hosts: 127.0.0.1
+  gather_facts: true
+
+  tasks:
+
+   - name: Install ansible galaxy miniconda
+     ansible.builtin.command: ansible-galaxy role install andrewrothstein.miniconda
+     changed_when: false
+
+   - name: Include andrewrothstein.miniconda role
+     ansible.builtin.include_role:
+      name: andrewrothstein.miniconda
+     when: ansible_pkg_mgr == 'dnf'

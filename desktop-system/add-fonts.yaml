@@ -1,0 +1,18 @@
+---
+# Run with ansible-playbook playbooks/local-test.yaml --connection=local
+# https://github.com/romkatv/powerlevel10k/blob/master/README.md#meslo-nerd-font-patched-for-powerlevel10k
+
+- name: Install fonts for powerlevel10k
+  hosts: 127.0.0.1
+  gather_facts: true
+
+  tasks:
+
+   - name: Install ansible galaxy miniconda
+     ansible.builtin.command: ansible-galaxy role install iancleary.meslolgs
+     changed_when: false
+
+   - name: Include  iancleary.meslolgs role
+     ansible.builtin.include_role:
+      name: iancleary.meslolgs
+     when: ansible_pkg_mgr == 'dnf'

@@ -8,11 +8,10 @@
 
     # Update Packages
 
-
     # Install Dev tool
     - name: Install packages
       become: true
-      ansible.builtin.dnf:
+      ansible.builtin.package:
         name:
           - zsh
           - stow
@@ -26,7 +25,7 @@
           - neovim
           - gnome-terminal
         state: present
-        use_backend: dnf4
+        # use_backend: dnf4
 
     - name: Set zsh default
       become: true
@@ -56,7 +55,7 @@
         # - com.visualstudio.code # not ideal in flatpak
           - com.vscodium.codium
           - org.gnome.Boxes
-          
+
         # games
           - org.duckstation.DuckStation
           - com.valvesoftware.Steam
@@ -83,9 +82,8 @@
     # Install Dev tool
     - name: Install 1Password
       become: true
-      ansible.builtin.dnf:
+      ansible.builtin.package:
         name:
           - 1password
           - 1password-cli
         state: present
-        use_backend: dnf4

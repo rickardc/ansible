@@ -6,70 +6,9 @@
 
   tasks:
 
-    - name: Make miniconda directory
-      ansible.builtin.file:
-        path: ~/miniconda3
-        state: directory
-        owner: chris
-
-    - name: Get shell script
-      ansible.builtin.get_url:
-        url: "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"
-        dest: "{{ ansible_env.HOME }}/miniconda3/miniconda.sh"
-
-    - name: Run Miniconda installer
-      command: "bash {{ ansible_env.HOME }}/miniconda3/miniconda.sh -b -u -p {{ ansible_env.HOME }}/miniconda3"
-      args:
-        creates: "{{ ansible_env.HOME }}/miniconda3/bin/conda"
-      become: true
-
-    # Install Miniconda 
-    - name: Install Miniconda
-      when: miniconda_installed.stat.exists == false
-      block:
-        - name: Create Miniconda directory
-          file:
-            path: "{{ ansible_env.HOME }}/miniconda3"
-            state: directory
-          become: true
-
-        - name: Download Miniconda installer
-          get_url:
-            url: "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"
-            dest: "{{ ansible_env.HOME }}/miniconda3/miniconda.sh"
-          become: true
-
-        - name: Run Miniconda installer
-          command: "bash {{ ansible_env.HOME }}/miniconda3/miniconda.sh -b -u -p {{ ansible_env.HOME }}/miniconda3"
-          args:
-            creates: "{{ ansible_env.HOME }}/miniconda3/bin/conda"
-          become: true
-
-        - name: Clean up Miniconda installer
-          file:
-            path: "{{ ansible_env.HOME }}/miniconda3/miniconda.sh"
-            state: absent
-          become: true
-
-    - name: Initialize Miniconda
-      when: miniconda_installed.stat.exists == false
-      block:
-        - name: Initialize Miniconda for bash shell
-          shell: "{{ ansible_env.HOME }}/miniconda3/bin/activate"
-          become: true
-          
-        - name: Initialize Miniconda for zsh shell
-          shell: "{{ ansible_env.HOME }}/miniconda3/bin/activate"
-          become: true
-
-      # sudo chown -R $USER:$USER ~/miniconda3 
-    
-
-  # docker
-
     # Check if Docker is installed
     - name: Check if Docker is installed
-      command: "rpm -q docker-ce"
+      ansible.builtin.command: "rpm -q docker-ce"
       register: docker_installed
       ignore_errors: true
       become: true
@@ -84,11 +23,11 @@
           become: true
 
         - name: Add Docker repository
-          shell: "sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo"
+          ansible.builtin.command: "sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo"
           become: true
 
         - name: Install Docker
-          dnf:
+          ansible.builtin.dnf:
             name: docker-ce, docker-ce-cli, containerd.io, docker-buildx-plugin, docker-compose-plugin
             state: present
           become: true
@@ -96,7 +35,7 @@
 
     # Display message if Docker is already installed
     - name: Display message if Docker is already installed
-      debug:
+      ansible.builtin.debug:
         msg: "Docker is already installed"
       when: docker_installed.rc == 0
 
@@ -124,7 +63,7 @@
             docker_desktop_arch: "x86_64"     # Specify architecture if needed
 
         - name: Install Docker Desktop
-          dnf:
+          ansible.builtin.dnf:
             name: "/tmp/docker-desktop.rpm"
             state: present
             disable_gpg_check: yes  # Disable GPG signature check
@@ -135,10 +74,3 @@
       debug:
         msg: "Docker Desktop is already installed"
       when: docker_desktop_installed.stat.exists == true
-
-
-
-
-
-
-
