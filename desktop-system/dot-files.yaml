@@ -7,4 +7,10 @@
    - name: Clone dotfiles
      ansible.builtin.git:
       repo: https://github.com/rickardc/dotfiles.git
-      dest: ~/GitHub # noqa: latest
+      dest: ~/dotfiles # noqa: latest
+      clone: true
+
+   - name: Stow dotfiles
+     ansible.builtin.command: "stow . --target {{ ansible_env.HOME }} --verbose=2"
+     register: result
+     changed_when: 'result.stderr is search("LINK: ")'
