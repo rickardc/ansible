@@ -37,20 +37,31 @@
     - name: Install multiple packages
       community.general.flatpak:
         name:
+          # other
+          - com.github.tchx84.Flatseal
+          - md.obsidian.Obsidian
+          - org.videolan.VLC
+
+          # browsers
           - org.mozilla.firefox
           - net.waterfox.waterfox
           - io.gitlab.librewolf-community
-          - org.videolan.VLC
+          - one.ablaze.floorp
+
+          # chat
+          - org.signal.Signal
+          - com.discordapp.Discord
+
+        # dev
         # - com.visualstudio.code # not ideal in flatpak
           - com.vscodium.codium
           - org.gnome.Boxes
-          - md.obsidian.Obsidian
-
-          - com.discordapp.Discord
+          
+        # games
           - org.duckstation.DuckStation
           - com.valvesoftware.Steam
           - net.pcsx2.PCSX2
-          - org.signal.Signal
+          - com.fightcade.Fightcade
         remote: flathub
         state: present
 
