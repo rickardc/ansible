@@ -4,6 +4,12 @@
   gather_facts: true
 
   tasks:
+   - name: Make dotfiles directory
+     ansible.builtin.file:
+      path: ~/dotfiles
+      state: directory
+      mode: u+rwx
+
    - name: Clone dotfiles
      ansible.builtin.git:
       repo: https://github.com/rickardc/dotfiles.git
