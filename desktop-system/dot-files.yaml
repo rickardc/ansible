@@ -4,6 +4,12 @@
   gather_facts: true
 
   tasks:
+   - name: Install packages
+     become: true
+     ansible.builtin.package:
+      name:
+       - stow
+
    - name: Make dotfiles directory
      ansible.builtin.file:
       path: ~/dotfiles
@@ -17,6 +23,6 @@
       clone: true
 
    - name: Stow dotfiles
-     ansible.builtin.command: "stow . --target {{ ansible_env.HOME }} --verbose=2"
+     ansible.builtin.command: "stow ~/dotfiles --target {{ ansible_env.HOME }} --verbose=2"
      register: result
      changed_when: 'result.stderr is search("LINK: ")'
