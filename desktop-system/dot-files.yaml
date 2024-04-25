@@ -12,17 +12,17 @@
 
    - name: Make dotfiles directory
      ansible.builtin.file:
-      path: ~/dotfiles
+      path: "{{ ansible_env.HOME }}/dotfiles"
       state: directory
       mode: u+rwx
 
    - name: Clone dotfiles
      ansible.builtin.git:
       repo: https://github.com/rickardc/dotfiles.git
-      dest: ~/dotfiles # noqa: latest
+      dest: "{{ ansible_env.HOME }}/dotfiles" # noqa: latest
       clone: true
 
    - name: Stow dotfiles
-     ansible.builtin.command: "stow ~/dotfiles --target {{ ansible_env.HOME }} --verbose=2"
+     ansible.builtin.command: "stow -d '{{ ansible_env.HOME }}/dotfiles' -t '{{ ansible_env.HOME }}' --verbose=2"
      register: result
      changed_when: 'result.stderr is search("LINK: ")'

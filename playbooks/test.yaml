@@ -1,0 +1,17 @@
+---
+- name: Test mkdir
+  hosts: 127.0.0.1
+  gather_facts: true
+
+  tasks:
+   - name: Install packages
+     become: true
+     ansible.builtin.package:
+      name:
+       - stow
+
+   - name: Make dotfiles directory
+     ansible.builtin.file:
+      path: "{{ ansible_env.HOME }}/testing"
+      state: directory
+      mode: u+rwx
