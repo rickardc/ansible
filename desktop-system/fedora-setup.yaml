@@ -24,6 +24,9 @@
           - tmux
           - neovim
           - gnome-terminal
+          - steam-devices
+          - ansible
+          - ansible-lint
         state: present
         # use_backend: dnf4
 
@@ -42,7 +45,7 @@
           - org.videolan.VLC
 
           # browsers
-          - org.mozilla.firefox
+          # - org.mozilla.firefox
           - net.waterfox.waterfox
           - io.gitlab.librewolf-community
           - one.ablaze.floorp
@@ -54,7 +57,7 @@
         # dev
         # - com.visualstudio.code # not ideal in flatpak
           - com.vscodium.codium
-          - org.gnome.Boxes
+        # - org.gnome.Boxes
 
         # games
           - org.duckstation.DuckStation
