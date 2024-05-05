@@ -7,6 +7,9 @@
   tasks:
 
     # Update Packages
+    - name: Update packages
+      become: true
+      
 
     # Install Dev tool
     - name: Install packages
@@ -15,8 +18,7 @@
         name:
           - zsh
           - stow
-          - neofetch
-          - cmatrix
+          - fastfetch
           - git
           - gh
           - wget
